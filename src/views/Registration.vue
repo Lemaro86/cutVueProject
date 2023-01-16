@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheRegistration from '../components/auth/RegItem.vue';
+import RegForm from '../components/auth/RegForm.vue';
 </script>
 
 <template>
   <main>
-    <TheRegistration />
+    <RegForm />
   </main>
 </template>

@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import IconLogo from '../icons/IconLogo.vue';
-</script>
-
 <template>
   <main
     class="md:min-h-screen md:flex md:items-center md:justify-center py-16 lg:py-20 bg-blue-900"
@@ -15,7 +11,7 @@ import IconLogo from '../icons/IconLogo.vue';
       </div>
 
       <div class="max-w-[640px] mt-12 mx-auto p-6 xs:p-8 md:p-12 2xl:p-16 rounded-[20px] bg-purple">
-        <h1 class="mb-5 text-lg font-semibold">Вход в аккаунт</h1>
+        <h1 class="mb-5 text-lg font-semibold">Восстановить пароль</h1>
         <form class="space-y-3">
           <input
             type="email"
@@ -23,23 +19,12 @@ import IconLogo from '../icons/IconLogo.vue';
             placeholder="E-mail"
             required
           />
-          <input
-            type="password"
-            class="w-full h-14 px-4 rounded-lg border border-[#A07BF0] bg-white/20 focus:border-pink focus:shadow-[0_0_0_2px_#EC4176] outline-none transition text-white placeholder:text-white text-xxs md:text-xs font-semibold"
-            placeholder="Пароль"
-            required
-          />
-          <button type="submit" class="w-full btn btn-pink">Войти</button>
+          <button type="submit" class="w-full btn btn-pink">Отправить</button>
         </form>
         <div class="space-y-3 mt-5">
           <div class="text-xxs md:text-xs">
-            <RouterLink to="/forgotPassword" class="text-white hover:text-white/70 font-bold">
-              Забыли пароль?
-            </RouterLink>
-          </div>
-          <div class="text-xxs md:text-xs">
-            <RouterLink to="/registration" class="text-white hover:text-white/70 font-bold">
-              Регистрация
+            <RouterLink to="/registration" class="text-white hover:text-white/70 font-bold"
+              >Регистрация
             </RouterLink>
           </div>
         </div>

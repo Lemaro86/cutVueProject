@@ -6,7 +6,12 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/Registration.vue')
+      component: () => import('../views/Home.vue')
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: () => import('../views/Auth.vue')
     },
     {
       path: '/login',
@@ -17,6 +22,16 @@ const router = createRouter({
       path: '/registration',
       name: 'registration',
       component: () => import('../views/Registration.vue')
+    },
+    {
+      path: '/forgotPassword',
+      name: 'forgot',
+      component: () => import('../views/ForgotPassword.vue')
+    },
+    {
+      path: '/github',
+      name: 'github auth',
+      component: () => import('../views/NotFound.vue')
     }
   ]
 });

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TheWelcome from "../components/TheWelcome.vue";
+import RegChoose from '../components/auth/RegChoose.vue';
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <RegChoose />
   </main>
 </template>
