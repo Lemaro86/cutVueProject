@@ -14,14 +14,16 @@
         <h1 class="mb-5 text-lg font-semibold">Вход в аккаунт</h1>
         <form class="space-y-3" @submit.prevent="onSubmit">
           <input
-            ref="name"
+            id="name"
+            v-model="form.name.value"
             type="text"
             class="w-full h-14 px-4 rounded-lg border border-[#A07BF0] bg-white/20 focus:border-pink focus:shadow-[0_0_0_2px_#EC4176] outline-none transition text-white placeholder:text-white text-xxs md:text-xs font-semibold"
             placeholder="Имя и фамилия"
             required
           />
           <input
-            ref="email"
+            id="email"
+            v-model="form.email.value"
             type="email"
             class="w-full h-14 px-4 rounded-lg border border-[#A07BF0] bg-white/20 focus:border-pink focus:shadow-[0_0_0_2px_#EC4176] outline-none transition text-white placeholder:text-white text-xxs md:text-xs font-semibold"
             placeholder="E-mail"
@@ -30,7 +32,8 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <input
-                ref="password"
+                id="password"
+                v-model="form.password.value"
                 type="password"
                 class="w-full h-14 px-4 rounded-lg border border-[#A07BF0] bg-white/20 focus:border-pink focus:shadow-[0_0_0_2px_#EC4176] outline-none transition text-white placeholder:text-white text-xxs md:text-xs font-semibold"
                 placeholder="Пароль"
@@ -39,7 +42,8 @@
             </div>
             <div>
               <input
-                ref="rePassword"
+                id="rePassword"
+                v-model="form.rePassword.value"
                 type="password"
                 class="_is-error w-full h-14 px-4 rounded-lg border border-[#A07BF0] bg-white/20 focus:border-pink focus:shadow-[0_0_0_2px_#EC4176] outline-none transition text-white placeholder:text-white text-xxs md:text-xs font-semibold"
                 placeholder="Повторно пароль"
@@ -93,44 +97,63 @@
 
 <script lang="ts">
 import IconLogo from '../icons/IconLogo.vue';
-import { ref } from 'vue';
 import axios from 'axios';
+import { useForm } from '../../use/form';
+
+const required = (val) => !!val;
+const minLength = (num) => (val) => val.length >= num;
 
 export default {
   components: { IconLogo },
   setup() {
-    const name = ref('');
-    const email = ref('');
-    const password = ref('');
+    const form = useForm({
+      name: {
+        value: '',
+        validators: { required }
+      },
+      email: {
+        value: '',
+        validators: { required }
+      },
+      password: {
+        value: '',
+        validators: { required, minLength: minLength(8) }
+      },
+      rePassword: {
+        value: '',
+        validators: { required, minLength: minLength(8) }
+      }
+    });
 
     const auth = async () => {
-      console.log('all data: ', name.value);
       try {
-        if (name.value !== '') {
-          await axios
-            .post(
-              'https://store-demo-api.cutcode.ru/api/v1/register',
-              JSON.stringify({
-                name: name.value,
-                email: email.value,
-                password: password.value
-              })
-            )
-            .then((response) => {
-              console.log('requested', response);
-            });
+        if (form.name !== '') {
+          const regUrl = 'https://store-demo-api.cutcode.ru/api/v1/register';
+
+          axios.defaults.headers.post['Content-Type'] = 'application/json';
+          axios.defaults.headers.post['Accept'] = 'application/json';
+
+          const data = JSON.stringify({
+            name: form.name.value,
+            email: form.email.value,
+            password: form.password.value,
+            password_confirmation: form.password.value
+          });
+
+          await axios.post(regUrl, data).then((response) => {
+            console.log('requested', response);
+          });
         }
       } catch (e) {
-        console.error(e);
+        console.error('Register is fail!!!:::', e);
       }
     };
 
     const onSubmit = () => {
       auth();
-      console.log('submitted');
     };
 
-    return { onSubmit };
+    return { form, onSubmit };
   }
 };
 </script>
