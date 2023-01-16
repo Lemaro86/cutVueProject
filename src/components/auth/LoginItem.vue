@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import IconLogo from '../icons/IconLogo.vue';
-</script>
-
 <template>
   <main
     class="md:min-h-screen md:flex md:items-center md:justify-center py-16 lg:py-20 bg-blue-900"
@@ -16,14 +12,16 @@ import IconLogo from '../icons/IconLogo.vue';
 
       <div class="max-w-[640px] mt-12 mx-auto p-6 xs:p-8 md:p-12 2xl:p-16 rounded-[20px] bg-purple">
         <h1 class="mb-5 text-lg font-semibold">Вход в аккаунт</h1>
-        <form class="space-y-3">
+        <form class="space-y-3" @submit.prevent="onSubmit">
           <input
             type="email"
+            v-model="form.email.value"
             class="w-full h-14 px-4 rounded-lg border border-[#A07BF0] bg-white/20 focus:border-pink focus:shadow-[0_0_0_2px_#EC4176] outline-none transition text-white placeholder:text-white text-xxs md:text-xs font-semibold"
             placeholder="E-mail"
             required
           />
           <input
+            v-model="form.password.value"
             type="password"
             class="w-full h-14 px-4 rounded-lg border border-[#A07BF0] bg-white/20 focus:border-pink focus:shadow-[0_0_0_2px_#EC4176] outline-none transition text-white placeholder:text-white text-xxs md:text-xs font-semibold"
             placeholder="Пароль"
@@ -71,3 +69,56 @@ import IconLogo from '../icons/IconLogo.vue';
     </div>
   </main>
 </template>
+
+<script>
+import IconLogo from '../icons/IconLogo.vue';
+import axios from 'axios';
+import { useForm } from '../../use/form';
+
+const required = (val) => !!val;
+const minLength = (num) => (val) => val.length >= num;
+
+export default {
+  components: { IconLogo },
+  setup() {
+    const form = useForm({
+      email: {
+        value: '',
+        validators: { required }
+      },
+      password: {
+        value: '',
+        validators: { required, minLength: minLength(8) }
+      }
+    });
+
+    const login = async () => {
+      try {
+        if (form.email.value !== '') {
+          const regUrl = 'https://store-demo-api.cutcode.ru/api/v1/auth/login';
+
+          axios.defaults.headers.post['Content-Type'] = 'application/json';
+          axios.defaults.headers.post['Accept'] = 'application/json';
+
+          const data = JSON.stringify({
+            email: form.email.value,
+            password: form.password.value
+          });
+
+          await axios.post(regUrl, data).then((response) => {
+            console.log('requested', response);
+          });
+        }
+      } catch (e) {
+        console.error('Register is fail!!!:::', e);
+      }
+    };
+
+    const onSubmit = () => {
+      login();
+    };
+
+    return { form, onSubmit };
+  }
+};
+</script>

@@ -11,7 +11,7 @@
       </div>
 
       <div class="max-w-[640px] mt-12 mx-auto p-6 xs:p-8 md:p-12 2xl:p-16 rounded-[20px] bg-purple">
-        <h1 class="mb-5 text-lg font-semibold">Вход в аккаунт</h1>
+        <h1 class="mb-5 text-lg font-semibold">Регистрация</h1>
         <form class="space-y-3" @submit.prevent="onSubmit">
           <input
             id="name"
@@ -61,8 +61,8 @@
             </RouterLink>
           </div>
           <div class="text-xxs md:text-xs">
-            <RouterLink to="/registration" class="text-white hover:text-white/70 font-bold">
-              Регистрация
+            <RouterLink to="/login" class="text-white hover:text-white/70 font-bold">
+              Вход в аккаунт
             </RouterLink>
           </div>
         </div>
@@ -95,7 +95,7 @@
   </main>
 </template>
 
-<script lang="ts">
+<script>
 import IconLogo from '../icons/IconLogo.vue';
 import axios from 'axios';
 import { useForm } from '../../use/form';
@@ -127,7 +127,7 @@ export default {
 
     const auth = async () => {
       try {
-        if (form.name !== '') {
+        if (form.name.value !== '') {
           const regUrl = 'https://store-demo-api.cutcode.ru/api/v1/register';
 
           axios.defaults.headers.post['Content-Type'] = 'application/json';
